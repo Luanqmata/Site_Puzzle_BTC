@@ -1,0 +1,59 @@
+ese codigo ele gera a chave e e converte e ja testa em tempo real no site das carteiras para ver se há saldo ; porem o site não aguenta tanto pedido
+
+import CoinKey from 'coinkey';
+import axios from 'axios'; // Importe o axios para fazer requisições HTTP
+
+const prefix = "C0DE0000000000000000000000000000000000000000000032";
+const characters = '0123456789abcdef';
+
+let keysArray = [];
+
+function gerador_chaves(num){
+    // Gerando chaves aleatórias e adicionando ao array keysArray
+    for (let j = 0; j < num; j++) {
+        let randomHex = '';
+        for (let i = 0; i < 14; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            randomHex += characters[randomIndex];
+        }
+        const newKey = prefix + randomHex;
+        keysArray.push(newKey);
+    }
+}
+
+gerador_chaves(4);
+
+function generatePublic(privateKey) {
+    // Converte a string hexadecimal para um Buffer
+    let buffer = Buffer.from(privateKey, 'hex');
+    // Cria um novo CoinKey com o buffer
+    let _key = new CoinKey(buffer);
+    // Define a compressão da chave pública
+    _key.compressed = true;
+    // Retorna o endereço público gerado
+    return _key.publicAddress;
+}
+
+// Função para consultar o saldo de uma carteira bitcoin
+async function getWalletBalance(address) {
+    try {
+        const response = await axios.get(`https://blockchain.info/rawaddr/${address}`);
+        return response.data.final_balance / 100000000; // Convertendo de satoshis para bitcoin
+    } catch (error) {
+        console.error("Erro ao consultar o saldo da carteira:", error.message);
+        return null;
+    }
+}
+
+// Itera sobre as chaves geradas e consulta o saldo de cada uma
+keysArray.forEach(async (keyHex, index) => {
+    const publicAddress = generatePublic(keyHex);
+    console.log(`Possibilidade Carteira ${index + 1}: ${publicAddress}`);
+
+    const balance = await getWalletBalance(publicAddress);
+    if (balance !== null) {
+        console.log(`Saldo da Carteira ${publicAddress}: ${balance} BTC\n`);
+    } else {
+        console.log(`Não foi possível obter o saldo da Carteira ${publicAddress}\n`);
+    }
+});
