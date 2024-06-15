@@ -24,7 +24,7 @@ function generatePublic(privateKey) {  // função que recebe a PRIVATE KEY gera
     if (_key.publicAddress === '18bHfcm8kGoAhBaQXzzVcG5534mdpWK981') { //Verifica se o endereço gerado foi igual ao da CARTEIRA DO CANAL
         pausa_loop.push(privateKey); // Adiciona a lista de PRIVATE KEY para vc comparar, e parar o loop do codigo
         console.log('                                                                          ----------------------ATENÇÃO-----------------------\n  ')
-        return _key.publicAddress + '     <<<<---------- Alguma Dessas 5 é a Carteira_do_canal ----------\n' ;//Retorna a carteira encontrada
+        return _key.publicAddress + '     <<<<---------- Alguma Dessas é a Carteira_do_canal ----------\n' ;//Retorna a carteira encontrada
     } else {
         return _key.publicAddress ; //se não for só mostra a chave e continua
     }
@@ -37,8 +37,8 @@ function verificarPausaLoop() {
 //const limiteIteracoes = 50; // PARA TESTES
                 // && iteracoes < limiteIteracoes (para estabelecer um limite coloca isso dentro do while)
 while (!verificarPausaLoop()) { // cria um looping , !verificarPausaLoop() {Se o pausa loop estiver vazio [retornando False]} ,, && é para obedecer o a contagem estabelecida quando estou testando o programa
-    gerador_chaves(5); //pede para gerar A QNT D chaves
-    console.log('\n\n|-----------------------------------------------------by-CchiNnAa---|') //estilo
+    gerador_chaves(15); //pede para gerar A QNT D chaves
+    console.log('\n\n|-----------------------------------------------------by-CchyNnAa---|') //estilo
     console.log('|   -------------------BEM-VINDO-LOOP-MENU------------------------- |')
     console.log('|    ------------------------------------------------------------   |\n|                                                                   |')
     console.log('|   A CARTEIRA DESEJADA É -->> 18bHfcm8kGoAhBaQXzzVcG5534mdpWK981   |\n|                                                                   |\n|                                                                   |')
@@ -53,7 +53,8 @@ while (!verificarPausaLoop()) { // cria um looping , !verificarPausaLoop() {Se o
 }
 
 if (verificarPausaLoop()) {
-    console.log('LOOP INTERROMPIDO PORQUE A CARTEIRA FOI ENCONTRADA.');
+    console.log('\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CARTEIRA ENCONTRADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n ______\n|      | \n|OOPS! |\n|WALLET|\n|FOUND!|\n|______|');
+
 } //else {                      //PARA TESTES
 //    console.log(`Loop interrompido após ${limiteIteracoes} iterações.`); //PARA TESTES
 //}                 //PARA TESTES

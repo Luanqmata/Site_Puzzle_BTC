@@ -1,59 +1,87 @@
-ese codigo ele gera a chave e e converte e ja testa em tempo real no site das carteiras para ver se há saldo ; porem o site não aguenta tanto pedido
-
 import CoinKey from 'coinkey';
-import axios from 'axios'; // Importe o axios para fazer requisições HTTP
+import secp256k1 from 'secp256k1';
 
-const prefix = "C0DE0000000000000000000000000000000000000000000032";
+const prefix = "00000000000000000000000000000000";
 const characters = '0123456789abcdef';
 
-let keysArray = [];
+const targetWallets = [
+    '1Pie8JkxBT6MGPz9Nvi3fsPkr2D8q3GBc1',
+    '1ErZWg5cFCe4Vw5BzgfzB74VNLaXEiEkhk',
+    '1QCbW9HWnwQWiQqVo5exhAnmfqKRrCRsvW',
+    '1BDyrQ6WoF8VN3g9SAS1iKZcPzFfnDVieY'
+];
 
-function gerador_chaves(num){
-    // Gerando chaves aleatórias e adicionando ao array keysArray
-    for (let j = 0; j < num; j++) {
-        let randomHex = '';
-        for (let i = 0; i < 14; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            randomHex += characters[randomIndex];
-        }
-        const newKey = prefix + randomHex;
-        keysArray.push(newKey);
+let chaves_analisadas = 0;
+let pausa_loop = false;
+
+function gerarChaveAleatoria() {
+    let randomHex = '';
+    for (let i = 0; i < 32; i++) { // Gerando uma chave de 32 caracteres hexadecimais
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomHex += characters[randomIndex];
     }
+    return prefix + randomHex;
 }
-
-gerador_chaves(4);
 
 function generatePublic(privateKey) {
-    // Converte a string hexadecimal para um Buffer
     let buffer = Buffer.from(privateKey, 'hex');
-    // Cria um novo CoinKey com o buffer
     let _key = new CoinKey(buffer);
-    // Define a compressão da chave pública
     _key.compressed = true;
-    // Retorna o endereço público gerado
-    return _key.publicAddress;
-}
 
-// Função para consultar o saldo de uma carteira bitcoin
-async function getWalletBalance(address) {
+    if (!secp256k1.privateKeyVerify(buffer)) {
+        console.log(`Chave privada inválida: ${privateKey}`);
+        return null; 
+    }
+
     try {
-        const response = await axios.get(`https://blockchain.info/rawaddr/${address}`);
-        return response.data.final_balance / 100000000; // Convertendo de satoshis para bitcoin
+        _key._publicKey = secp256k1.publicKeyCreate(_key.privateKey, _key.compressed);
     } catch (error) {
-        console.error("Erro ao consultar o saldo da carteira:", error.message);
+        console.log(`Erro ao gerar chave pública para ${privateKey}: ${error.message}`);
         return null;
     }
+
+    if (targetWallets.includes(_key.publicAddress)) {
+        pausa_loop = true;
+        console.log(`Chave privada encontrada para carteira desejada: ${privateKey}`);
+        return _key.publicAddress + ' <<<<---------- Carteira de 32 bits  ----------';
+    } else {
+        chaves_analisadas++;
+        return _key.publicAddress;
+    }
 }
 
-// Itera sobre as chaves geradas e consulta o saldo de cada uma
-keysArray.forEach(async (keyHex, index) => {
-    const publicAddress = generatePublic(keyHex);
-    console.log(`Possibilidade Carteira ${index + 1}: ${publicAddress}`);
+const inicioTempo = Date.now();
+let rodadas = 0;
 
-    const balance = await getWalletBalance(publicAddress);
-    if (balance !== null) {
-        console.log(`Saldo da Carteira ${publicAddress}: ${balance} BTC\n`);
-    } else {
-        console.log(`Não foi possível obter o saldo da Carteira ${publicAddress}\n`);
+while (!pausa_loop && chaves_analisadas < 1000) { // Limite de 1000 chaves analisadas
+    let keysArray = Array.from({ length: 60 }, () => gerarChaveAleatoria());
+
+    console.log(`\n\n|-----------------------------------------------------by-CchyNnAa---|`);
+    console.log(`|   -------------------BEM-VINDO-LOOP-MENU------------------------- |`);
+    console.log(`|    -----Rodada-${rodadas}-----------------------------------------------`);
+    console.log(`|   A CARTEIRA DESEJADA É -->> 1HsMJxNiV7TLxmoF6uJNkydxPFDog4NQum   |`);
+    console.log(`|   >>Chaves_Analisadas>> : ${chaves_analisadas}                         |`);
+    
+    keysArray.forEach((keyHex, index) => {
+        console.log(`|   Possibilidade Carteira ${index + 1}: ${generatePublic(keyHex)}    |`);
+    });
+
+    rodadas++;
+}
+
+const fimTempo = Date.now();
+const tempoTotal = (fimTempo - inicioTempo) / 1000; 
+console.log(`\n\nO loop rodou por ${tempoTotal} segundos.`);
+
+if (pausa_loop) {
+    console.log('\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CARTEIRA ENCONTRADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n ______\n|      | \n|OOPS! |\n|WALLET|\n|FOUND!|\n|______|');
+}
+
+
+__________________________________________________________
+
+resolve erro:
+if (!secp256k1.privateKeyVerify(buffer)) {
+        console.log(`ERROR AO CRIAR CHAVE: ${privateKey}`);
+        return null; 
     }
-});
