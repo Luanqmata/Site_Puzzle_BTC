@@ -49,10 +49,26 @@ function generatePublic(privateKey) {
         return null;
     }
 }
+function Ivnc(text) {
+    console.log('\x1b[32m%s\x1b[0m', text);
+}
+
+let Atual = 'zero'
+function Ianc(texto) {
+    if (Atual === 'zero') {
+        console.log('\x1b[33m%s\x1b[0m', texto); 
+        Atual = 'um'; 
+    } else if (Atual === 'um') {
+        console.log('\x1b[34m%s\x1b[0m', texto); 
+        Atual = 'dois'; 
+    } else {
+        console.log('\x1b[31m%s\x1b[0m', texto); 
+        Atual = 'zero'; 
+    }
+}
 
 const inicioTempo = Date.now();
 while (Resultado.size < 1) {
-    console.log(chaves_analisadas)
     const chaves_geradas = new Set()
     for (let i = 0; i < 5000; i++) {
         chaves_geradas.add(gerador_chaves())
@@ -60,6 +76,8 @@ while (Resultado.size < 1) {
     chaves_geradas.forEach((converter_key) => {
         generatePublic(converter_key)
     });
+    Ivnc('~~ CHina Finder ~~');
+    Ianc('      '+chaves_analisadas);
 }
 const fimTempo = Date.now();
 const tempoTotal = (fimTempo - inicioTempo) / 1000;
@@ -73,4 +91,3 @@ console.log(`|   >>Chaves_Analisadas>> :${chaves_analisadas}\n|                 
 console.log(`${Array.from(Resultado).join('\n')}|\n|________________________________________________________________________|`);
 
 //console.log(chaves_analisadas);
-
