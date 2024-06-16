@@ -54,7 +54,7 @@ const inicioTempo = Date.now();
 while (Resultado.size < 1) {
     console.log(chaves_analisadas)
     const chaves_geradas = new Set()
-    for (let i = 0; i < 2000; i++) {
+    for (let i = 0; i < 50000; i++) {
         chaves_geradas.add(gerador_chaves())
     }
     chaves_geradas.forEach((converter_key) => {
