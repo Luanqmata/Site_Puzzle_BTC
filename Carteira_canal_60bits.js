@@ -25,7 +25,16 @@ function gerador_chaves() {
     let chave_gerada = prefix + randomHex
     return chave_gerada
     }
-
+let atual = 'verde'
+function Ivnc(text) {
+    if (atual === 'verde') {
+        console.log('\x1b[32m%s\x1b[0m', text); 
+        atual = 'amarelo'; 
+    } else if (atual === 'amarelo') {
+        console.log('\x1b[33m%s\x1b[0m', text); 
+        atual = 'verde'; 
+    } 
+}
 function generatePublic(privateKey) {
     let buffer = Buffer.from(privateKey, 'hex');
     let _key = new CoinKey(buffer);
@@ -33,55 +42,42 @@ function generatePublic(privateKey) {
     try {
         _key._publicKey = secp256k1.publicKeyCreate(_key.privateKey, _key.compressed);
     } catch (error) {
-        console.log(`|             Erro Ao criar CHAVE. ${error.message}        |`);
+        Ivnc(`|             Erro Ao criar CHAVE. ${error.message}        |`);
         return null;
     }
     if (wallets.has(_key.publicAddress)) {
         Resultado.add(`| Pkey = ${privateKey}|\n| Wallet: ${_key.publicAddress}                             |`);
-        console.log(`\n|--------------`+_key.publicAddress+ `----------------|\n|----------------------ATENÇÃO-PRIVATE-KEY-----------------------|\n|${privateKey}|`);
+        Ivnc(`\n|--------------`+_key.publicAddress+ `----------------|\n|----------------------ATENÇÃO-PRIVATE-KEY-----------------------|\n|${privateKey}|`);
         return _key.publicAddress;
     } else {
         chaves_analisadas += 1;
-        //console.log(privateKey);
+        //Ivnc(privateKey);
         return null;
     }
 }
-function Ivnc(text) {
-    console.log('\x1b[32m%s\x1b[0m', text);
-}
-
-let Atual = 'zero'
 function Iaavnc(texto) {
-    if (Atual === 'zero') {
-        console.log('\x1b[33m%s\x1b[0m', texto); 
-        Atual = 'um'; 
-    } else if (Atual === 'um') {
-        console.log('\x1b[34m%s\x1b[0m', texto); 
-        Atual = 'dois'; 
-    } else {
-        console.log('\x1b[31m%s\x1b[0m', texto); 
-        Atual = 'zero'; 
+    for(let i=0; i <7;i++){
+        console.log('\x1b[3'+i+'m%s\x1b[0m', texto);
     }
 }
-
 const inicioTempo = Date.now();
 while (Resultado.size < 1) {
     const chaves_geradas = new Set()
-    for (let i = 0; i < 5000; i++) {
+    for (let i = 0; i < 50000; i++) {
         chaves_geradas.add(gerador_chaves())
     }
     chaves_geradas.forEach((converter_key) => {
         generatePublic(converter_key)
     });
     Ivnc('~~ CHina Finder ~~');
-    Iaavnc('      '+chaves_analisadas);
+    Ivnc('      '+chaves_analisadas);
 }
 const fimTempo = Date.now();
 const tempoTotal = (fimTempo - inicioTempo) / 1000;
 console.log(`\n\nO loop rodou por ${tempoTotal} segundos.`);
 console.log('\n                              ______\n                             |      | \n                             |OOPS! |\n                             |WALLET|\n                             |FOUND!|\n                             |______|');
 console.log('|-----------------------------------------------------by-Luan-BSC---|');
-console.log('|   -----------------------China-LOOP-MENU------------------------- |');
+Iaavnc('|   -----------------------China-LOOP-MENU------------------------- |');
 console.log(`|    -----Rodadas-${rodadas}----------------------------------------------\n|                                                                   |`);
 console.log('|              Você está buscando por 4 carteiras                   |\n|                                                                   |\n|                                                                   |');
 console.log(`|   >>Chaves_Analisadas>> :${chaves_analisadas}\n|                                                                   |\n|___________________________________________________________________|____`);
