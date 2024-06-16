@@ -1,7 +1,7 @@
 import CoinKey from 'coinkey';
 import secp256k1 from 'secp256k1'
 
-const prefix = "00000000000000000000000000000000000000000000000000000000000";
+const prefix = "00000000000000000000000000000000000000000000000000000000000"; // ###
 const characters = '0123456789abcdef';
 
 const wallets = new Set([
@@ -17,7 +17,7 @@ const Resultado = new Set()
 
 function gerador_chaves() {
     const characters_unicos = new Set();
-    for (let i = 0; characters_unicos.size < 5; i++) {
+    for (let i = 0; characters_unicos.size < 5; i++) {//####
         const randomIndex = Math.floor(Math.random() * characters.length);
         characters_unicos.add(characters[randomIndex]);
     }
@@ -55,7 +55,7 @@ function generatePublic(privateKey) {
         return _key.publicAddress;
     } else {
         chaves_analisadas += 1;
-        //intc(privateKey);
+        //intc(privateKey); //imprimir todas wallets na tela
         return null;
     }
 }
@@ -67,7 +67,7 @@ function Iaavnc(texto) {
 const inicioTempo = Date.now();
 while (Resultado.size < 1) {
     const chaves_geradas = new Set()
-    for (let i = 0; i < 50000; i++) {
+    for (let i = 0; i < 50000; i++) { //numero de keys geradas
         chaves_geradas.add(gerador_chaves())
     }
     chaves_geradas.forEach((converter_key) => {
