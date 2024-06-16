@@ -34,7 +34,6 @@ function generatePublic(privateKey) {
     let buffer = Buffer.from(privateKey, 'hex');
     let _key = new CoinKey(buffer);
     _key.compressed = true;
-
     try {
         _key._publicKey = secp256k1.publicKeyCreate(_key.privateKey, _key.compressed);
     } catch (error) {

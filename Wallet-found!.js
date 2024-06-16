@@ -5,10 +5,10 @@ const prefix = "000000000000000000000000000000000000000000000000000000000000";
 const characters = '0123456789abcdef';
 
 const wallets = new Set([
-    '1Pie8JkxBT6MGPz9Nvi3fsPkr2D8q3GBc1',
+    '1Pie8JkxBT6MGPz9Nvi3fsPkr2D8q3GBc1',  //CARTEIRAS DE 16BITS
     '1ErZWg5cFCe4Vw5BzgfzB74VNLaXEiEkhk',
     '1QCbW9HWnwQWiQqVo5exhAnmfqKRrCRsvW',
-    '1BDyrQ6WoF8VN3g9SAS1iKZcPzFfnDVieY'
+    '1BDyrQ6WoF8VN3g9SAS1iKZcPzFfnDVieY',
 ]);
 
 let chaves_analisadas = 0;
