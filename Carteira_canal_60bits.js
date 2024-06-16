@@ -1,33 +1,34 @@
 import CoinKey from 'coinkey';
-import secp256k1 from 'secp256k1';
+import secp256k1 from 'secp256k1'
 
-const prefix = "00000000000000000000000000000000000000000000000000000000000";
+const prefix = "C0DE0000000000000000000000000000000000000000000032";
 const characters = '0123456789abcdef';
 
-    const wallets = new Set([
-        '1HduPEXZRdG26SUT5Yk83mLkPyjnZuJ7Bm',
-        '1GnNTmTVLZiqQfLbAdp9DVdicEnB5GoERE',
-        '1NWmZRpHH4XSPwsW6dsS3nrNWfL1yrJj4w',
-        '1HsMJxNiV7TLxmoF6uJNkydxPFDog4NQum'
-    ]);
-        
+const wallets = new Set([
+    '18bHfcm8kGoAhBaQXzzVcG5534mdpWK981', // C_canal
+    '19WBGaCZ86wAJz6qQ2kw8vZy7foL4CmoAF',   //testes
+    '1CPLCPs4LaejofvvmjfbbqvnFeN3CEEq9a',   //testes
+    '1JdmY4eiFGK5cFkjzuk5kzBYxXzcfFbe3',    //testes
+    '1P6RqyB6vWx1czPk5kjTwFyK3WBRypGNtM',    //testes
+]);
+
 let chaves_analisadas = 0;
 let rodadas = 0;
-const Resultado = new Set();
+const Resultado = new Set()
 
-
-function gerarChaveUnica() {
-    const novoHex = new Set(); 
-    for (let i = 0; novoHex.size < 5; i++) {
+function gerador_chaves() {
+    const characters_unicos = new Set();
+    for (let i = 0; characters_unicos.size < 14; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
-        novoHex.add(characters[randomIndex]);
+        characters_unicos.add(characters[randomIndex]);
     }
     let randomHex = '';
-    novoHex.forEach(elemento => {
-        randomHex += elemento;
+    characters_unicos.forEach(elementos_unicos => {
+        randomHex += elementos_unicos;
     });
-    return prefix + randomHex;
-}
+    let chave_gerada = prefix + randomHex
+    return chave_gerada
+    }
 
 function generatePublic(privateKey) {
     let buffer = Buffer.from(privateKey, 'hex');
@@ -40,7 +41,6 @@ function generatePublic(privateKey) {
         console.log(`|             Erro Ao criar CHAVE. ${error.message}        |`);
         return null;
     }
-
     if (wallets.has(_key.publicAddress)) {
         Resultado.add(`| Pkey = ${privateKey}|\n| Wallet: ${_key.publicAddress}                             |`);
         console.log(`\n|--------------`+_key.publicAddress+ `----------------|\n|----------------------ATENÇÃO-PRIVATE-KEY-----------------------|\n|${privateKey}|`);
@@ -53,19 +53,17 @@ function generatePublic(privateKey) {
 
 const inicioTempo = Date.now();
 while (Resultado.size < 1) {
-    const novasChaves = new Set(); 
-    for (let i = 0; i < 100; i++) {  
-        novasChaves.add(gerarChaveUnica());
+    console.log(chaves_analisadas)
+    const chaves_geradas = new Set()
+    for (let i = 0; i < 5000; i++) {
+        chaves_geradas.add(gerador_chaves())
     }
-    novasChaves.forEach(novaChave => {
-        generatePublic(novaChave);
+    chaves_geradas.forEach((converter_key) => {
+        generatePublic(converter_key)
     });
-    rodadas++;
 }
-
 const fimTempo = Date.now();
 const tempoTotal = (fimTempo - inicioTempo) / 1000;
-
 console.log(`\n\nO loop rodou por ${tempoTotal} segundos.`);
 console.log('\n                              ______\n                             |      | \n                             |OOPS! |\n                             |WALLET|\n                             |FOUND!|\n                             |______|');
 console.log('|-----------------------------------------------------by-Luan-BSC---|');
@@ -74,3 +72,6 @@ console.log(`|    -----Rodadas-${rodadas}---------------------------------------
 console.log('|              Você está buscando por 4 carteiras                   |\n|                                                                   |\n|                                                                   |');
 console.log(`|   >>Chaves_Analisadas>> :${chaves_analisadas}\n|                                                                   |\n|___________________________________________________________________|____`);
 console.log(`${Array.from(Resultado).join('\n')}|\n|________________________________________________________________________|`);
+
+//console.log(chaves_analisadas);
+

@@ -1,31 +1,25 @@
 import CoinKey from 'coinkey';
 import secp256k1 from 'secp256k1';
 
-const prefix = "000000000000000000000000000000000000000000000000000000000000";
+const prefix = "00000000000000000000000000000000000000000000000000000000000";
 const characters = '0123456789abcdef';
-
 const wallets = new Set([
-    '1Pie8JkxBT6MGPz9Nvi3fsPkr2D8q3GBc1',
-    '1ErZWg5cFCe4Vw5BzgfzB74VNLaXEiEkhk',
-    '1QCbW9HWnwQWiQqVo5exhAnmfqKRrCRsvW',
-    '1BDyrQ6WoF8VN3g9SAS1iKZcPzFfnDVieY'
+    '1HduPEXZRdG26SUT5Yk83mLkPyjnZuJ7Bm',
+    '1GnNTmTVLZiqQfLbAdp9DVdicEnB5GoERE',
+    '1NWmZRpHH4XSPwsW6dsS3nrNWfL1yrJj4w',
+    '1HsMJxNiV7TLxmoF6uJNkydxPFDog4NQum'
 ]);
-        
+
 let chaves_analisadas = 0;
 let rodadas = 0;
 const Resultado = new Set();
 
-
 function gerarChaveUnica() {
-    const novoHex = new Set(); 
-    for (let i = 0; novoHex.size < 4; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        novoHex.add(characters[randomIndex]);
-    }
     let randomHex = '';
-    novoHex.forEach(elemento => {
-        randomHex += elemento;
-    });
+    for (let i = 0; i < 5; i++) { 
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomHex += characters[randomIndex];
+    }
     return prefix + randomHex;
 }
 
@@ -47,20 +41,20 @@ function generatePublic(privateKey) {
         return _key.publicAddress;
     } else {
         chaves_analisadas += 1;
-        return null;
+        return _key.publicAddress;
     }
 }
 
 const inicioTempo = Date.now();
-while (Resultado.size < 1) {
-    const novasChaves = new Set(); 
-    for (let i = 0; i < 100; i++) {  
-        novasChaves.add(gerarChaveUnica());
-    }
-    novasChaves.forEach(novaChave => {
-        generatePublic(novaChave);
-    });
 
+while (Resultado.size < 3) { 
+    const novasChaves = [];
+    for (let i = 0; i < 100; i++) { 
+        novasChaves.push(gerarChaveUnica());
+    }
+    for (const novaChave of novasChaves) {
+        generatePublic(novaChave);
+    }
     rodadas++;
 }
 

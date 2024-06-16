@@ -77,6 +77,5 @@ console.log('\n\n|-----------------------------------------------------by-CchyNn
     keysArray.forEach((keyHex, index) => {
         console.log(`|   Possibilidade Carteira ${index + 1}: ${generatePublic(keyHex)}    |\n|                                                                   |`);
     });
-if (verificarPausaLoop()) {
-    console.log('\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CARTEIRA ENCONTRADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n ______\n|      | \n|OOPS! |\n|WALLET|\n|FOUND!|\n|______|');
-}
+console.log('\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CARTEIRA ENCONTRADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n ______\n|      | \n|OOPS! |\n|WALLET|\n|FOUND!|\n|______|');
+
