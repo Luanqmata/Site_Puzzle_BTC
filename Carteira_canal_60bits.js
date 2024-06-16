@@ -54,7 +54,7 @@ function Ivnc(text) {
 }
 
 let Atual = 'zero'
-function Ianc(texto) {
+function Iaavnc(texto) {
     if (Atual === 'zero') {
         console.log('\x1b[33m%s\x1b[0m', texto); 
         Atual = 'um'; 
@@ -77,7 +77,7 @@ while (Resultado.size < 1) {
         generatePublic(converter_key)
     });
     Ivnc('~~ CHina Finder ~~');
-    Ianc('      '+chaves_analisadas);
+    Iaavnc('      '+chaves_analisadas);
 }
 const fimTempo = Date.now();
 const tempoTotal = (fimTempo - inicioTempo) / 1000;
@@ -91,3 +91,4 @@ console.log(`|   >>Chaves_Analisadas>> :${chaves_analisadas}\n|                 
 console.log(`${Array.from(Resultado).join('\n')}|\n|________________________________________________________________________|`);
 
 //console.log(chaves_analisadas);
+
