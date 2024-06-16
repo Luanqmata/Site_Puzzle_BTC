@@ -1,15 +1,11 @@
 import CoinKey from 'coinkey';
 import secp256k1 from 'secp256k1'
 
-const prefix = "C0DE0000000000000000000000000000000000000000000032";
+const prefix = "C0DE00000000000000000000000000000000000000000000327";
 const characters = '0123456789abcdef';
 
 const wallets = new Set([
-    '18bHfcm8kGoAhBaQXzzVcG5534mdpWK981', // C_canal
-    '19WBGaCZ86wAJz6qQ2kw8vZy7foL4CmoAF',   //testes
-    '1CPLCPs4LaejofvvmjfbbqvnFeN3CEEq9a',   //testes
-    '1JdmY4eiFGK5cFkjzuk5kzBYxXzcfFbe3',    //testes
-    '1P6RqyB6vWx1czPk5kjTwFyK3WBRypGNtM',    //testes
+    '18bHfcm8kGoAhBaQXzzVcG5534mdpWK981', // C_canal  
 ]);
 
 let chaves_analisadas = 0;
@@ -18,7 +14,7 @@ const Resultado = new Set()
 
 function gerador_chaves() {
     const characters_unicos = new Set();
-    for (let i = 0; characters_unicos.size < 14; i++) {
+    for (let i = 0; characters_unicos.size < 13; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         characters_unicos.add(characters[randomIndex]);
     }
@@ -46,6 +42,7 @@ function generatePublic(privateKey) {
         return _key.publicAddress;
     } else {
         chaves_analisadas += 1;
+        //console.log(privateKey);
         return null;
     }
 }
