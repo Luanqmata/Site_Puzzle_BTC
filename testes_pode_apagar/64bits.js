@@ -96,6 +96,3 @@ console.log(`|   >>Chaves_Analisadas>> :${chaves_analisadas}\n|                 
 Ivnc(`${Array.from(Resultado).join('\n')}`);
 console.log('|________________________________________________________________________|');
 console.log(chaves_analisadas);
-
-
-
