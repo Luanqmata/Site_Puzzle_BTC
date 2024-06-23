@@ -15,5 +15,3 @@ function gerador_chaves(){
 for(let i =0 ; i<10 ;i++){
     gerador_chaves()
 }
-
-
