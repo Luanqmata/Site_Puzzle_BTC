@@ -3,3 +3,5 @@
 
 ### menos eficiente que o .go porque só usa um thread de processamento
 
+### Apenas entendendo a logica
+
